@@ -335,7 +335,7 @@ function addRainfallChart(StationID){
             var rain = [];
             $.ajax({
                 type: 'GET',
-                url: '/data/rainfall_2019.json',
+                url: 'data/rainfall_2019.json',
                 dataType: 'json',
                 success: function(field) {
                   for (var i = 0; i < field.length; i++) {
