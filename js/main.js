@@ -3,7 +3,7 @@ function  setRainfallChart(StationCode){
     var rain = [];
     $.ajax({
         type: 'GET',
-        url: '/data/rainfall_2019.json',
+        url: 'data/rainfall_2019.json',
         dataType: 'json',
         success: function(field) {
           var data_filter = field.filter(a => a.StationID == StationCode);
