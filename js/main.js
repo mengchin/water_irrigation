@@ -1,35 +1,92 @@
 function  setRainfallChart(StationCode){
-    var labels = [];
-    var rain = [];
+    var backgroundColor = ["rgba(133, 193, 233, 0.8)", 
+                           "rgba(254, 132, 0, 0.8)", 
+                           "rgba(25, 151, 29, 0.8)"]
     $.ajax({
         type: 'GET',
-        url: 'data/rainfall_2019.json',
+        url: 'data/rainfall_all.json',
         dataType: 'json',
         success: function(field) {
-          var data_filter = field.filter(a => a.StationID == StationCode);
-          for (var i = 0; i < data_filter.length; i++) {
-            labels.push(data_filter[i].Month);
-            rain.push(data_filter[i].Rainfall);
+          var datasets = []
+          var labels = [];
+        //   var data_filter = field.filter(a => a.StationID == StationCode);
+          var data_filter = field[StationCode]
+          var count = 0
+          for (var year in data_filter){
+            var flag = true
+            if (labels.length == 0) {
+                flag = false
           }
+            yearly_data = data_filter[year]
+            var rain = [];
+            for (var i = 0; i < yearly_data.length; i++) {
+                if (!flag) {
+                    labels.push(yearly_data[i].Month);
+                }
+                rain.push(yearly_data[i].Rainfall);
+            }
+            datasets.push({
+                label: year,
+                data: rain,
+                fill: false,
+                backgroundColor: backgroundColor[count],
+                borderColor: backgroundColor[count],
+            })
+            count += 1
+          }
+
           var ctx = document.getElementById("rainfall-chart").getContext('2d') 
           var myChart = new Chart(ctx, {
             type: 'line',
             data: {
               labels: labels,
-              datasets: [{
-                  label: '2019年 降雨量',
-                  data: rain,
-                  fill: false,
-                  backgroundColor: "rgba(133, 193, 233, 0.8)",
-                  borderColor: "rgba(133, 193, 233, 0.3)",
-                }
-              ]
+              datasets: datasets
             },
             options: {
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                plugins: {
+                    title: {
+                      display: true,
+                      text: '總降雨量 (' + StationCode + ")"
+                    },
+                    legend: {
+                        labels: {
+                            usePointStyle: true,
+                            // boxHeight: 10,
+                            font: {
+                                size: 10
+                }
+            },
+                        position: 'chartArea',
+                    },
+                },
                 scales: {
+                    x : {
+                        title: {
+                            display: true,
+                            text: "月份"
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
                     y : {
+                        title: {
+                            display: true,
+                            text: "降雨量(公噸)",
+                        },
                         suggestedMin: 0,
-                        suggestedMax: 100000
+                        suggestedMax: 100000,
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
                     }
                 }
             }
