@@ -9,7 +9,6 @@ function  setRainfallChart(StationCode){
         success: function(field) {
           var datasets = []
           var labels = [];
-        //   var data_filter = field.filter(a => a.StationID == StationCode);
           var data_filter = field[StationCode]
           var count = 0
           for (var year in data_filter){
@@ -55,7 +54,6 @@ function  setRainfallChart(StationCode){
                     legend: {
                         labels: {
                             usePointStyle: true,
-                            // boxHeight: 10,
                             font: {
                                 size: 10
                 }
