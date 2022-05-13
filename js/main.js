@@ -15,7 +15,7 @@ function  setRainfallChart(StationCode){
             var flag = true
             if (labels.length == 0) {
                 flag = false
-          }
+            }
             yearly_data = data_filter[year]
             var rain = [];
             for (var i = 0; i < yearly_data.length; i++) {
@@ -56,8 +56,8 @@ function  setRainfallChart(StationCode){
                             usePointStyle: true,
                             font: {
                                 size: 10
-                }
-            },
+                            }
+                        },
                         position: 'chartArea',
                     },
                 },
@@ -107,11 +107,13 @@ function addRainfallChart(StationID){
     components:{},
     data: function () {
         return {
+            countyChecked:false,
             irrigationChecked:false,
             rainStationChecked: false,
             watershedChecked:false,
             riverChecked:false,
             paddiesChecked:false,
+            county_mainLayer: undefined,
             irrigation_mainLayer: undefined,
             irrigation_subLayer: undefined,
             rainStationLayer:undefined,
@@ -123,6 +125,14 @@ function addRainfallChart(StationID){
         };
     },
     watch:{
+        countyChecked:function(){
+            if (this.countyChecked == true){
+                this.loadCounty()
+            } else {
+                this.countyChecked = false;
+                this.county_mainLayer.remove();
+            }                    
+        },
         irrigationChecked:function(){
             if (this.irrigationChecked == true){
                 this.loadirrigation()
@@ -375,6 +385,29 @@ function addRainfallChart(StationID){
             axios.get('data/paddies.geojson').then(function (response) {
                 let data = response.data;
                 self.paddiesLayer = L.geoJson.vt(data,options).addTo(map);
+            });
+        },
+
+        //載入縣市界
+        loadCounty: function (){
+            var self = this; 
+            var style = {
+                fillColor: '#B6D0EC',
+                weight: 2,
+                opacity: 1,
+                color: '#3c4e54',
+                dashArray: '1',
+                fillOpacity: 0
+            };
+            // var onEachShape = function(feature, layer){
+            //     layer.bindTooltip(feature.properties.COUNTYNAME.toString(), {permanent: true, direction: "center", opacity: 0.7});
+            // };
+            axios.get('data/county.geojson').then(function (response) {
+                let data = response.data;
+                self.watershedLayer = L.geoJSON(data,{
+                    // onEachFeature: onEachShape,
+                    style:style
+                }).addTo(map);
             });
         },
 
