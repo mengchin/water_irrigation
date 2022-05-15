@@ -107,13 +107,11 @@ function addRainfallChart(StationID){
     components:{},
     data: function () {
         return {
-            countyChecked:false,
             irrigationChecked:false,
             rainStationChecked: false,
             watershedChecked:false,
             riverChecked:false,
             paddiesChecked:false,
-            county_mainLayer: undefined,
             irrigation_mainLayer: undefined,
             irrigation_subLayer: undefined,
             rainStationLayer:undefined,
@@ -125,14 +123,6 @@ function addRainfallChart(StationID){
         };
     },
     watch:{
-        countyChecked:function(){
-            if (this.countyChecked == true){
-                this.loadCounty()
-            } else {
-                this.countyChecked = false;
-                this.county_mainLayer.remove();
-            }                    
-        },
         irrigationChecked:function(){
             if (this.irrigationChecked == true){
                 this.loadirrigation()
@@ -388,28 +378,6 @@ function addRainfallChart(StationID){
             });
         },
 
-        //載入縣市界
-        loadCounty: function (){
-            var self = this; 
-            var style = {
-                fillColor: '#B6D0EC',
-                weight: 2,
-                opacity: 1,
-                color: '#3c4e54',
-                dashArray: '1',
-                fillOpacity: 0
-            };
-            // var onEachShape = function(feature, layer){
-            //     layer.bindTooltip(feature.properties.COUNTYNAME.toString(), {permanent: true, direction: "center", opacity: 0.7});
-            // };
-            axios.get('data/county.geojson').then(function (response) {
-                let data = response.data;
-                self.watershedLayer = L.geoJSON(data,{
-                    // onEachFeature: onEachShape,
-                    style:style
-                }).addTo(map);
-            });
-        },
 
         //*************載入水情資訊(全部)*****************/   
         //showRainfallChart:function(){
