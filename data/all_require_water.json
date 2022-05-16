@@ -1,0 +1,262 @@
+{
+     "上旬":
+      [{
+       "month": 6,
+       "period": "上旬",
+       "periodRequired": 654,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 7,
+       "period": "上旬",
+       "periodRequired": 3740,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 8,
+       "period": "上旬",
+       "periodRequired": 4652,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 9,
+       "period": "上旬",
+       "periodRequired": 4706,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 10,
+       "period": "上旬",
+       "periodRequired": 1834,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 11,
+       "period": "上旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      },
+     {
+       "month": 12,
+       "period": "上旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      },
+     {
+       "month": 1,
+       "period": "上旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      },
+     
+     {
+       "month": 2,
+       "period": "上旬",
+       "periodRequired": 2429,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 3,
+       "period": "上旬",
+       "periodRequired": 2462,
+       "riceRatio": 0.7148659626320065,
+       "sugarRatio": 0.2851340373679935
+      },
+     {
+       "month": 4,
+       "period": "上旬",
+       "periodRequired": 5499,
+       "riceRatio": 0.3862520458265139,
+       "sugarRatio": 0.613747954173486
+      },
+     {
+       "month": 5,
+       "period": "上旬",
+       "periodRequired": 2893,
+       "riceRatio": 0.6246111303145524,
+       "sugarRatio": 0.37538886968544766
+      }],
+     "中旬":[
+     {
+       "month": 6,
+       "period": "中旬",
+       "periodRequired": 2401,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     
+      {
+       "month": 7,
+       "period": "中旬",
+       "periodRequired": 4732,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 8,
+       "period": "中旬",
+       "periodRequired": 4665,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+      {
+       "month": 9,
+       "period": "中旬",
+       "periodRequired": 4244,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     
+      {
+       "month": 10,
+       "period": "中旬",
+       "periodRequired": 3172,
+       "riceRatio": 0.30548549810844894,
+       "sugarRatio": 0.6945145018915511
+      },
+      {
+       "month": 11,
+       "period": "中旬",
+       "periodRequired": 3887,
+       "riceRatio": 0,
+       "sugarRatio": 1
+      },
+       {
+       "month": 12,
+       "period": "中旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      },
+      {
+       "month": 1,
+       "period": "中旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      },
+      {
+       "month": 2,
+       "period": "中旬",
+       "periodRequired": 5450,
+       "riceRatio": 0.35541284403669726,
+       "sugarRatio": 0.6445871559633027
+      },
+      {
+       "month": 3,
+       "period": "中旬",
+       "periodRequired": 1814,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+     {
+       "month": 4,
+       "period": "中旬",
+       "periodRequired": 3774,
+       "riceRatio": 0.5529941706412295,
+       "sugarRatio": 0.44700582935877053
+      },
+      {
+       "month": 5,
+       "period": "中旬",
+       "periodRequired": 3235,
+       "riceRatio": 0.32890262751159194,
+       "sugarRatio": 0.6710973724884081
+      }],
+     
+     "下旬":[
+     {
+       "month": 6,
+       "period": "下旬",
+       "periodRequired": 3674,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+      {
+       "month": 7,
+       "period": "下旬",
+       "periodRequired": 5266,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+      {
+       "month": 8,
+       "period": "下旬",
+       "periodRequired": 5213,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      }, 
+      {
+       "month": 9,
+       "period": "下旬",
+       "periodRequired": 3392,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+      {
+       "month": 10,
+       "period": "下旬",
+       "periodRequired": 1449,
+       "riceRatio": 0.24085576259489302,
+       "sugarRatio": 0.759144237405107
+      },
+      {
+       "month": 11,
+       "period": "下旬",
+       "periodRequired": 1962,
+       "riceRatio": 0,
+       "sugarRatio": 1
+      },
+      {
+       "month": 12,
+       "period": "下旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      },
+      {
+       "month": 1,
+       "period": "下旬",
+       "periodRequired": 2821,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+      {
+       "month": 2,
+       "period": "下旬",
+       "periodRequired": 4281,
+       "riceRatio": 0.33893950011679513,
+       "sugarRatio": 0.6610604998832048
+      },
+      {
+       "month": 3,
+       "period": "下旬",
+       "periodRequired": 3894,
+       "riceRatio": 0.5667693888032871,
+       "sugarRatio": 0.4332306111967129
+      },
+      
+      {
+       "month": 4,
+       "period": "下旬",
+       "periodRequired": 2006,
+       "riceRatio": 1,
+       "sugarRatio": 0
+      },
+      {
+       "month": 5,
+       "period": "下旬",
+       "periodRequired": 0,
+       "riceRatio": null,
+       "sugarRatio": null
+      }]
+     }
