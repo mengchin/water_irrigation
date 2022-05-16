@@ -1,10 +1,10 @@
 function  setRainfallChart(StationCode){
     var backgroundColor = ["rgba(133, 193, 233, 0.8)", 
-                           "rgba(254, 132, 0, 0.8)", 
-                           "rgba(25, 151, 29, 0.8)"]
+                           "rgba(226, 169, 203, 0.8)", 
+                           "rgba(192, 169, 226, 0.8)"]
     $.ajax({
         type: 'GET',
-        url: 'data/rainfall_all.json',
+        url: 'data/rev_rainfall_all.json',
         dataType: 'json',
         success: function(field) {
           var datasets = []
@@ -321,8 +321,16 @@ function addRainfallChart(StationID){
         //載入集水區徐昇多邊形
         loadWatershed: function (){
             var self = this; 
-            var onEachShape = function(feature, layer){
-                var self = this; 
+            var style = {
+                fillColor: '#B6D0EC',
+                zIndex:999,
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '1',
+                fillOpacity: 0.7
+            };
+            var onEachShape = function(feature, layer){ 
                 layer.on('click', function (e) {
                     /* 這裏的 this scope 指的是 layer 回傳的 shape */
                     document.getElementById('rainfall-container').innerHTML = "<canvas width=300 height=250 id='rainfall-chart'>";
@@ -331,16 +339,17 @@ function addRainfallChart(StationID){
                     addRainfallChart(StationCode);
                     //this.feature.type === 'Feature'  && self.setInfowindow(e,this.feature.properties)
                 });
-            };
-            var style = {
-                fillColor: '#B6D0EC',
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '1',
-                fillOpacity: 0.7
-            };
-            axios.get('data/rain_watershed.geojson').then(function (response) {
+                 // Highlight the marker on hover
+                layer.on('mouseover', function(e){
+                    layer.setStyle({ fillColor: '#968CD8' });
+                });
+            
+                // Un-highlight the marker on hover out
+                layer.on('mouseout', function(e){
+                    layer.setStyle(style);
+                });                
+            };           
+            axios.get('data/rev_rain_watershed.geojson').then(function (response) {
                 let data = response.data;
                 self.watershedLayer = L.geoJSON(data,{
                     onEachFeature: onEachShape,
