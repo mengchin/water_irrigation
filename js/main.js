@@ -1,3 +1,94 @@
+function setupRotChart(MngCode){
+    var backgroundColor = ["rgba(133, 193, 233, 0.8)", 
+                           "rgba(226, 169, 203, 0.8)", 
+                           "rgba(192, 169, 226, 0.8)"]
+    $.ajax({
+        type: 'GET',
+        url: 'data/108_2_rice_water.json',
+        dataType: 'json',
+        success: function(field) {
+          var datasets = []
+          var labels = [];
+          var water =[];
+          var data_filter = field[MngCode]
+          console.log(data_filter)
+          for(var Record in data_filter)
+          {
+              labels.push(data_filter[Record].fields.Mnsperiod);
+              water.push(data_filter[Record].fields.water);
+          }
+          datasets.push({
+              label: Mnsperiod,
+              data: water,
+              fill: false,
+              backgroundColor: backgroundColor[count],
+              borderColor: backgroundColor[count],
+          })
+
+          var ctx = document.getElementById("RotWater-chart").getContext('2d') 
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels,
+              datasets: datasets
+            },
+            options: {
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                plugins: {
+                    title: {
+                      display: true,
+                      text: '總需水量'
+                    },
+                    legend: {
+                        labels: {
+                            usePointStyle: true,
+                            font: {
+                                size: 10
+                            }
+                        },
+                        position: 'chartArea',
+                    },
+                },
+                scales: {
+                    x : {
+                        title: {
+                            display: true,
+                            text: "月份"
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    y : {
+                        title: {
+                            display: true,
+                            text: "降雨量(公噸)",
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100000,
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+          });
+        }
+      });
+};
+
+
+function addRotChart(MngCode){
+    var myChart = setupRotChart(MngCode)
+};
+
 function  setRainfallChart(StationCode){
     var backgroundColor = ["rgba(133, 193, 233, 0.8)", 
                            "rgba(226, 169, 203, 0.8)", 
@@ -79,7 +170,7 @@ function  setRainfallChart(StationCode){
                             text: "降雨量(公噸)",
                         },
                         suggestedMin: 0,
-                        suggestedMax: 100000,
+                        suggestedMax: 10000,
                         ticks: {
                             font: {
                                 size: 10
@@ -109,17 +200,25 @@ function addRainfallChart(StationID){
         return {
             irrigationChecked:false,
             rainStationChecked: false,
-            watershedChecked:false,
+            rainAccumChecked:false,
             riverChecked:false,
+            weightsChecked:false,
             paddiesChecked:false,
+            RotChecked:false,
+            countyChecked:false,
             irrigation_mainLayer: undefined,
             irrigation_subLayer: undefined,
             rainStationLayer:undefined,
             river_lineLayer:undefined,
             river_polyLayer:undefined,
-            watershedLayer:undefined,
+            rainAccumLayer:undefined,
+            paddiesWeightsLayer:undefined,
             paddiesLayer:undefined,
+            RotLayer:undefined,
+            CountyBoundaries:undefined,
             StationID:'',
+            Mng:'',
+            toShowseasonSelect:false,
         };
     },
     watch:{
@@ -149,15 +248,23 @@ function addRainfallChart(StationID){
                 this.river_polyLayer.remove();
             }        
         },
-        watershedChecked:function(){
-            if (this.watershedChecked == true){
-                this.loadWatershed()
+        rainAccumChecked:function(){
+            if (this.rainAccumChecked == true){
+                this.loadrainAccum()
             } else {
-                this.watershedChecked = false;
-                this.watershedLayer.remove();
+                this.rainAccumChecked = false;
+                this.rainAccumLayer.remove();
                 const myChild = document.getElementById('rainfall-container');
                 myChild.innerHTML = '';
             }   
+        },
+        weightsChecked:function(){
+            if (this.weightsChecked == true){
+                this.loadWeights();
+            } else {
+                this.weightsChecked = false;
+                this.paddiesWeightsLayer.remove();
+            }        
         },
         paddiesChecked:function(){
             if (this.paddiesChecked == true){
@@ -165,6 +272,24 @@ function addRainfallChart(StationID){
             } else {
                 this.paddiesChecked = false;
                 this.paddiesLayer.remove();
+            }        
+        },
+        RotChecked:function(){
+            if (this.RotChecked == true){
+                this.loadRot()
+            } else {
+                this.RotChecked = false;
+                this.RotLayer.remove();
+                const myChild = document.getElementById('requiredWater-container');
+                myChild.innerHTML = '';
+            }        
+        },
+        countyChecked:function(){
+            if (this.countyChecked == true){
+                this.loadCounty()
+            } else {
+                this.countyChecked = false;
+                this.CountyBoundaries.remove();
             }        
         },
 
@@ -187,7 +312,7 @@ function addRainfallChart(StationID){
          * 初始化底圖切換
          */
         initBaseLayer: function(){
-            const map = L.map('map',{zoomControl: false}).setView([22.934999, 120.202545], 10);
+            const map = L.map('map',{zoomControl: false}).setView([23.14999, 120.202545], 9);
             //設為全域 
             window.map  = map
             // 設定地圖名稱以及對應的TileLayer
@@ -225,17 +350,9 @@ function addRainfallChart(StationID){
         initSearch: function(){
             map.addControl(L.control.search({ position: 'topright' }))
         },
-        //載入河流WMS
+        //載入河流為VT
         loadRiver: function (){
             var self = this;
-            //self.riverLayers = L.tileLayer.wms('https://maps.wra.gov.tw/arcgis/services/WMS/GIC_WMS/MapServer/WMSServer?',{
-            //    layers:'RIVERPOLY',
-            //    format: 'image/png',
-            //    transparent: true,
-            //    version: '1.1.0',
-            //    crs: L.CRS.EPSG4326,
-            //    zIndex: 1000
-            //}).addTo(map); 
             axios.get('data/river_line.geojson').then(function (response) {
                 let data = response.data;
                 self.river_lineLayer = L.geoJSON(data,{
@@ -294,8 +411,6 @@ function addRainfallChart(StationID){
                         }
                       }            
                 }).addTo(map);
-                bounds = self.irrigation_subLayer.getBounds();
-                map.fitBounds(bounds);
             });
         },
 
@@ -318,8 +433,8 @@ function addRainfallChart(StationID){
                 }).addTo(map);
             });
         },
-        //載入集水區徐昇多邊形
-        loadWatershed: function (){
+        //載入降雨估計徐昇多邊形
+        loadrainAccum: function (){
             var self = this; 
             var style = {
                 fillColor: '#B6D0EC',
@@ -349,9 +464,9 @@ function addRainfallChart(StationID){
                     layer.setStyle(style);
                 });                
             };           
-            axios.get('data/rev_rain_watershed.geojson').then(function (response) {
+            axios.get('data/rainAccum.geojson').then(function (response) {
                 let data = response.data;
-                self.watershedLayer = L.geoJSON(data,{
+                self.rainAccumLayer = L.geoJSON(data,{
                     onEachFeature: onEachShape,
                     style:style
                 }).addTo(map);
@@ -359,8 +474,8 @@ function addRainfallChart(StationID){
         },
 
 
-        //載入稻作需水
-        loadPaddies: function (){
+        //載入稻作權重        
+        loadWeights: function (){
             var self = this; 
             var options = {
                 maxZoom: 16,
@@ -383,58 +498,73 @@ function addRainfallChart(StationID){
             };
             axios.get('data/paddies.geojson').then(function (response) {
                 let data = response.data;
-                self.paddiesLayer = L.geoJson.vt(data,options).addTo(map);
+                self.paddiesWeightsLayer = L.geoJson.vt(data,options).addTo(map);
             });
         },
 
+        //載入灌溉輪區
+        loadRot: function (){
+            var self = this; 
+            var style = {
+                fillColor: '#CFEFA9',
+                zIndex:900,
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '1',
+                fillOpacity: 0.7
+            };
+            var onEachShape = function(feature, layer){ 
+                layer.on('click', function (e) {
+                    console.log(layer.feature.properties.Rot)
+                    /* 這裏的 this scope 指的是 layer 回傳的 shape */
+                    document.getElementById('requiredWater-container').innerHTML = "<canvas width=300 height=250 id='RotWater-chart'>";
+                    this.Mng = layer.feature.properties.Rot;
+                    var MngCode = this.Mng;
+                    addRotChart(MngCode);
+                    //this.feature.type === 'Feature'  && self.setInfowindow(e,this.feature.properties)
+                });
+                 // Highlight the marker on hover
+                layer.on('mouseover', function(e){
+                    layer.setStyle({ fillColor: '#968CD8' });
+                });
+            
+                // Un-highlight the marker on hover out
+                layer.on('mouseout', function(e){
+                    layer.setStyle(style);
+                });                
+            };           
+            axios.get('data/Rot.geojson').then(function (response) {
+                let data = response.data;
+                self.RotLayer = L.geoJson(data,
+                    {style:style,
+                     onEachFeature:onEachShape
+                    }).addTo(map);
+            });
 
-        //*************載入水情資訊(全部)*****************/   
-        //showRainfallChart:function(){
-        //    this.toShowpopCharts = true;
-        //},
-        //closeRainfallChart:function(){
-        //    this.toShowpopCharts = false;
-        //},
-        makeRainfallAllCharts:function(){
-            var labels = [];
-            var rain = [];
-            $.ajax({
-                type: 'GET',
-                url: 'data/rainfall_2019.json',
-                dataType: 'json',
-                success: function(field) {
-                  for (var i = 0; i < field.length; i++) {
-                    labels.push(field[i].Month);
-                    rain.push(field[i].Rainfall);
-                  }
-                  var ctx = document.getElementById("rainfall-chart").getContext('2d');
-                  var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                      labels: labels,
-                      datasets: [{
-                          label: '降雨量',
-                          data: rain,
-                          fill: false,
-                          backgroundColor: 'red',
-                          borderColor: 'red',
-                        }
-                      ]
-                    },
-                    options: {
-                      scales: {
-                        yAxes: [{
-                          ticks: {
-                            beginAtZero: true
-                          }
-                        }]
-                      }
-                    }
-                  });
-                }
-              });
         },
-    
+   
+        //載入縣市界
+        loadCounty: function(){
+            var self = this; 
+            var style = {
+                weight: 1,
+                opacity: 1,
+                color: 'grey',
+                fillOpacity: 0.3
+            };
+            axios.get('data/county.geojson').then(function (response) {
+                let data = response.data;
+                self.CountyBoundaries = L.geoJson(data,{
+                    style:style,
+                    onEachFeature: function (feature, layer) {
+                        layer.bindTooltip(feature.properties.COUNTYNAME);
+                    }
+                }).addTo(map);
+            });
+        },
+        
+        
     },
 
     beforeCreate:function (){

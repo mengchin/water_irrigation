@@ -31,6 +31,11 @@
     <!---ChartJS-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
 
+    <!---Vuetify-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
 </head>
 <body>
     <!--地圖經緯度資訊-->
@@ -53,7 +58,7 @@
             </div>                                             
         </div>
         <div  id="rainfall-container" class="rainfall-container"></div>
-
+        <div id="requiredWater-container" class="requiredWater-container"></div>
         <!--側邊視窗-->
         <div id="sidepanel" class="panel">
             <div class="panel-container">
@@ -70,51 +75,58 @@
                         <br><br> 
                     </div--->
                     <div class="form-check"> 
-                        <div id="layer-attributes" style="color: dimgrey;">          
-                            <div style="color: #ffffff;">
-                                <span style="color: #87A6CA; font-size: 20px; font-weight: bold;" ><i class="fa fa-tint" aria-hidden="true"></i>雨量資訊</span>
-                                <div class="form-switch form-check ms-2">
-                                    <label for="rainStation" class="form-check-label">降雨測站</label>
-                                    <input type="checkbox" class="form-check-input" id="rainStation"  v-model= "rainStationChecked">
-                                </div>
-                                <div class="form-switch form-check ms-2">
-                                    <label for="watershed" class="form-check-label">集水區</label>
-                                    <input type="checkbox" class="form-check-input" id="watershed"  v-model= "watershedChecked">
-                                </div>
-                                <br>
-                                <span style="color: #87A6CA; font-size: 20px; font-weight: bold;" ><i class="fa fa-tint" aria-hidden="true"></i>灌溉資訊</span>
-                                <div class="form-switch form-check ms-2">
-                                    <label for="river" class="form-check-label">河川</label>
-                                    <input type="checkbox" class="form-check-input" id="river" v-model= "riverChecked">
-                                </div>
-                                <div class="form-switch form-check ms-2">
-                                    <label for="irrigation" class="form-check-label">農業灌溉渠道</label>
-                                    <input type="checkbox" class="form-check-input" id="irrigation"  v-model= "irrigationChecked">
-                                </div>
-                                <div class="form-switch form-check ms-2">
-                                    <label for="parcel" class="form-check-label">稻田可獲水量</label>
-                                    <input type="checkbox" class="form-check-input" id="parcel" v-model="paddiesChecked">
-                                </div>
+                        <div id="layer-attributes" style="color: #ffffff;">          
+                            <span style="color: #87A6CA; font-size: 20px; font-weight: bold;" ><i class="fa fa-tint" aria-hidden="true"></i>雨量資訊</span>
+                            <div class="form-switch form-check ms-2">
+                                <label for="rainStation" class="form-check-label">降雨測站</label>
+                                <input type="checkbox" class="form-check-input" id="rainStation"  v-model= "rainStationChecked">
                             </div>
-                        </div> 
-
-                    </div>
-
+                            <div class="form-switch form-check ms-2">
+                                <label for="watershed" class="form-check-label">降雨量估計</label>
+                                <input type="checkbox" class="form-check-input" id="rainAccum"  v-model= "rainAccumChecked">
+                            </div>
+                            <br>
+                            <span style="color: #87A6CA; font-size: 20px; font-weight: bold;" ><i class="fa fa-tint" aria-hidden="true"></i>灌溉資訊</span>
+                            <div class="form-switch form-check ms-2">
+                                <label for="river" class="form-check-label">河川</label>
+                                <input type="checkbox" class="form-check-input" id="river" v-model= "riverChecked">
+                            </div>
+                            <div class="form-switch form-check ms-2">
+                                <label for="irrigation" class="form-check-label">農業灌溉渠道</label>
+                                <input type="checkbox" class="form-check-input" id="irrigation"  v-model= "irrigationChecked">
+                            </div>
+                            <div class="form-switch form-check ms-2">
+                                <label for="parcel" class="form-check-label">灌溉配水權重</label>
+                                <input type="checkbox" class="form-check-input" id="parcelWeight" v-model="weightsChecked">
+                            </div>   
+                            <div class="form-switch form-check ms-2">
+                                <label for="irrigation" class="form-check-label">灌溉組別供需平衡</label>
+                                <input type="checkbox" class="form-check-input" id="irrigationRot"  v-model= "RotChecked">
+                            </div>    
+                            <br>
+                            <span style="color: #87A6CA; font-size: 20px; font-weight: bold;" ><i class="fa-solid fa-layer-group"></i> 地理區界</span>
+                            <div class="form-switch form-check ms-2">
+                                <label for="irrigation" class="form-check-label">縣市界圖</label>
+                                <input type="checkbox" class="form-check-input" id="county"  v-model= "countyChecked">
+                            </div>                  
+                        </div>                
+                    </div>   
                 </div>
             </div>
-
-        </div>
+        </div>   
     
-
         <!--主要地圖-->
         <div id="map"></div>
 
     </div>
 </body>
+    <!-----jquery---->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>      
-                                                                                                                                                                                                                                                                                       
+    <!-----Vue---->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+                                                                                                                                                                                                                                                            
     <!--Map JS Script-->
     <script src="./js/main.js"></script>
     <script src="./js/leaflet-geojson-vt.js"></script>

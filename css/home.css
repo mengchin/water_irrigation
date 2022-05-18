@@ -3956,7 +3956,7 @@ textarea.form-control-lg {
   color: #0a58ca;
 }
 .nav-link.disabled {
-  color: #6c757d;
+  color: #131414;
   pointer-events: none;
   cursor: default;
 }
@@ -3976,13 +3976,13 @@ textarea.form-control-lg {
   isolation: isolate;
 }
 .nav-tabs .nav-link.disabled {
-  color: #6c757d;
+  color: #3c3d3e;
   background-color: transparent;
   border-color: transparent;
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #495057;
+  color: #1f2122;
   background-color: #fff;
   border-color: #dee2e6 #dee2e6 #fff;
 }
@@ -11458,3 +11458,5 @@ select {
  .select:hover::after {
    color: #0c4128;
  }
+
+
