@@ -4,59 +4,70 @@ function setupRotChart(MngCode){
                            "rgba(192, 169, 226, 0.8)"]
     $.ajax({
         type: 'GET',
-        url: 'data/108_2_rice_water.json',
+        url: 'data/rice_water.json',
         dataType: 'json',
         success: function(field) {
-          var datasets = []
           var labels = [];
-          var water =[];
+          var water_108 =[];
+          var water_109 =[];
           var data_filter = field[MngCode]
-          console.log(data_filter)
-          for(var Record in data_filter)
-          {
-              labels.push(data_filter[Record].fields.Mnsperiod);
-              water.push(data_filter[Record].fields.water);
-          }
-          datasets.push({
-              label: Mnsperiod,
-              data: water,
-              fill: false,
-              backgroundColor: backgroundColor[count],
-              borderColor: backgroundColor[count],
-          })
+          for(var i in data_filter) {
+            labels.push(data_filter[i].Mnsperiod);
+            water_108.push(data_filter[i].re_water_108);
+            water_109.push(data_filter[i].re_water_109);
+        }
+        var waterData = {
+            labels : labels,
+            datasets : [
+                {
+                    label: "二期稻作需水量",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(0,168,168, 0.5)",
+                    borderColor: "rgba(0,168,168, 0.1)",
+                    borderCapStyle: 'butt',
+                    data:  water_108,
+                    spanGaps: false,
+                    pointRadius: 5,
+                    showLine: false //<- set this
+                },
+                {
+                    label: "一期稻作需水量",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(0,214,214, 0.5)",
+                    borderColor: "rgba(0,214,214, 0.1)",
+                    borderCapStyle: 'butt',
+                    data:  water_109,
+                    spanGaps: false,
+                    pointRadius: 5,
+                    showLine: false //<- set this
+                }
+
+            ]
+        };
 
           var ctx = document.getElementById("RotWater-chart").getContext('2d') 
-          var myChart = new Chart(ctx, {
+          var waterChart = new Chart(ctx, {
             type: 'line',
-            data: {
-              labels: labels,
-              datasets: datasets
-            },
+            data: waterData,
             options: {
+                responsive: true,
                 interaction: {
-                    intersect: false,
                     mode: 'index',
+                    intersect: false,
                 },
                 plugins: {
                     title: {
-                      display: true,
-                      text: '總需水量'
-                    },
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            font: {
-                                size: 10
-                            }
-                        },
-                        position: 'chartArea',
-                    },
+                        display: true,
+                        text: '灌區需水量'
+                    }
                 },
                 scales: {
                     x : {
                         title: {
                             display: true,
-                            text: "月份"
+                            text: "旬期"
                         },
                         ticks: {
                             font: {
@@ -67,10 +78,10 @@ function setupRotChart(MngCode){
                     y : {
                         title: {
                             display: true,
-                            text: "降雨量(公噸)",
+                            text: "需水量(萬立方公尺)",
                         },
                         suggestedMin: 0,
-                        suggestedMax: 100000,
+                        suggestedMax: 1500,
                         ticks: {
                             font: {
                                 size: 10
@@ -79,7 +90,7 @@ function setupRotChart(MngCode){
                     }
                 }
             }
-          });
+           });      
         }
       });
 };
@@ -526,7 +537,7 @@ function addRainfallChart(StationID){
                 });
                  // Highlight the marker on hover
                 layer.on('mouseover', function(e){
-                    layer.setStyle({ fillColor: '#968CD8' });
+                    layer.setStyle({ fillColor: '#26A69A' });
                 });
             
                 // Un-highlight the marker on hover out

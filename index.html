@@ -9,6 +9,11 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="./css/home.css"> 
         <link rel="stylesheet" href="./css/hightchart.css"> 
+        
+        <!--fontawesome--->        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js" integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!---ChartJS-->
         <!--script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script--->
@@ -320,26 +325,34 @@
             </section>
 
             <!-- Footer-->
-            <footer style="padding-top:50px; height:300px; background-color:#838383; color: rgb(239, 243, 247);">
+            <footer style="padding-top:50px; height:400px; background-color:#838383; color: rgb(239, 243, 247);">
                 <div class="container px-4">
-                    <div class="col-md-2-2" style="height: 150px; padding-left: 50px;">
-                        <h3>如何獲取最新資訊</h3>
-                        <p>您的信箱:
-                            <input type="email">
-                        </p>
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">我願意收到回覆訊息</label>
-                        <br>
-                        <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                        <label class="form-check-label" for="exampleCheck2">我願意訂閱以獲得最新資訊</label>
-                    </div>
-                    <div class="col-md-2-2" style="height: 150px;">
-                        <div style="display:flex; float: right; height: 100px; width:350px; background-color: #bcbcbc;"></div>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-2-2" style="height: 200px; padding-left: 50px; text-align: justify;">
+                            <div>
+                                <h3>如何獲取最新資訊</h3>
+                                <p>您的信箱:
+                                    <input type="email" size="30">
+                                </p>
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">我願意收到回覆訊息</label>
+                                <br>
+                                <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                                <label class="form-check-label" for="exampleCheck2">我願意訂閱以獲得最新資訊</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2-2" style="height: 200px;">
+                            <div style="float: right; height: 180px; width:380px; background-color: #bcbcbc; border-radius: 8px; padding: 30px 10px  30px  20px ; font-size: 28px;">
+                                <h4>追蹤/加入粉絲團以獲取最新消息</h4>
+                                
+                                <p style="text-align: center;"><i class="fab fa-facebook"></i> &nbsp;&nbsp; <i class="fab fa-instagram"></i> &nbsp;&nbsp;<i class="fab fa-twitter"></i></p>
+                            </div>
+                        </div>
+                    </div>                  
                 </div>     
                 <div class="container px-4">
                     <hr style="color: aliceblue; top:20px; padding: 1px;"></hr>
-                    <div style="align-items: center; text-align: center;">
+                    <div>
                         <p class="m-0 text-center text-white">Acknowledgements: 經濟部水利署、行政院農業委員會農田水利署</p>
                         <p class="m-0 text-center text-white">Editor: 徐若堯、許予瑄、朱丹玥、李信誼、蔡孟秦 </p>  
                     </div>

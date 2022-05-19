@@ -96,7 +96,7 @@ body {
     height: auto; 
     top:150px; 
     right:50px; 
-    background-color: rgb(234, 242, 248);
+    background-color: transparent;
     z-index: 999;
 }
 .requiredWater-container {
@@ -106,7 +106,7 @@ body {
     height: auto; 
     bottom:50px; 
     right:50px; 
-    background-color: rgb(234, 242, 248);
+    background-color:  transparent;
     z-index: 999;
 }
 
