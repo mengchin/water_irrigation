@@ -23,6 +23,12 @@
                 {eng:'YL', name:'雲林管理處',　acc:'100000',required:'104000'},
                 {eng:'CN', name:'嘉南管理處',　acc:'200000',required:'100201'},
             ],
+            questionType:'',
+            questionOptions:[
+                {question:'平台使用問題', type:'001'},
+                {question:'稻作灌溉疑問', type:'002'},
+                {question:'其他問題', type:'003'}
+            ]
 
         };
     },
@@ -35,6 +41,62 @@
     },
     methods: {
 
+        //灌區水情地圖
+        initMap: function(){
+            var map = L.map('map').setView([23.214999, 120.202545], 10);
+
+            L.tileLayer('http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: '&copy;'
+            }).addTo(map);
+            
+            //var getColor= function(d) {
+            //    return d > 10000 ? '#EC407A' :
+            //           d > 8000  ? '#F06292' :
+            //           d > 7000  ? '#F48FB1' :
+            //           d > 6000  ? '#F8BBD0' :
+            //                        '#E0E0E0';
+            //};
+            //var style= function(feature) {
+            //    return {
+            //        fillColor: getColor(feature.properties.Year_accum),
+            //        weight: 2,
+            //        opacity: 1,
+            //        color: 'white',
+            //        dashArray: '1',
+            //        fillOpacity: 0.7
+            //    };
+            //}
+            var popupContent = "<b>Hello world!</b><br />I am a popup.";
+            var popupOptions =
+                {
+                  'maxWidth': '500',
+                  'className' : 'another-popup' // classname for another popup
+                }
+            var style={
+                fillColor:'#EC407A',
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '1',
+                fillOpacity: 0.7
+            }
+            var markerStyle={
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 500
+            }
+            axios.get('data/Rot.geojson').then(function (response) {
+                let data = response.data;
+                L.geoJson(data,{style:style,}).addTo(map);
+            });
+            
+            var popup = L.popup()
+            .setLatLng([23.214999, 120.202545])
+            .setContent('嘉南水利處')
+            .openOn(map);
+    
+        },
         setRequiredWaterChart:function(){
             function  setRainfallChart(){
                 var backgroundColor = [
@@ -149,7 +211,7 @@
                 url: 'https://data.wra.gov.tw/OpenAPI/api/OpenData/1602CA19-B224-4CC3-AA31-11B1B124530F/Data',
                 dataType: 'json',
                 success: function() {
-                    console.log('success')
+
                 }
             })
         },
@@ -229,6 +291,7 @@
         //this.setRequiredWaterChart();
         this.getAccumData();
         this.setChart();
+        this.initMap();
     }
    
         
